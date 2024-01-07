@@ -289,7 +289,7 @@ class HuntCog(commands.Cog):
         table_range = 'A'+str(rownum)+':'+gspread.utils.rowcol_to_a1(rownum,len(headings))
         nexussheet.append_row(temp,table_range=table_range)
 
-    def puzzle_sheet_make(self,nexus_data,puzzlename):
+    def puzzle_sheet_make(self,nexus_data,puzzlename,hunt_folder):
         """ copy template sheet from link in Nexus and return link to new sheet """
 
         # sort headings
@@ -300,9 +300,13 @@ class HuntCog(commands.Cog):
         template_url = nexus_data[1][lib['Spreadsheet Link'][0]]
         template_key = max(template_url.split('/'),key=len)
 
+        #
+        hunt_folder_id = max(hunt_folder.split('/'), key=len)
+        hunt_folder_id = hunt_folder_id.split('?')[0]
+        
         # make copy of template sheet
         gclient = self.drive.gclient()
-        newsheet = gclient.copy(template_key,title=puzzlename, copy_permissions=True)
+        newsheet = gclient.copy(template_key,title=puzzlename, folder_id=hunt_folder_id, copy_permissions=True)
         newsheet_url = "https://docs.google.com/spreadsheets/d/%s" % newsheet.id
         return newsheet_url
 
@@ -786,7 +790,7 @@ class HuntCog(commands.Cog):
 
         # puzzle creation sequence
         newchannels = await self.channel_create(ctx, hunt_info, name=puzzlename, position=position, category=roundcategory)
-        newsheet_url = self.puzzle_sheet_make(nexus_data, puzzlename)
+        newsheet_url = self.puzzle_sheet_make(nexus_data, puzzlename, hunt_info['hunt_folder'])
         msg = await newchannels[0].send(newsheet_url)
         await msg.pin()
         self.nexus_add_puzzle(nexussheet=nexus_sheet, hunt_info=hunt_info, nexus_data=nexus_data, puzzlechannel=newchannels[0], voicechannel=newchannels[1], puzzlename=puzzlename, puzzlesheeturl=newsheet_url, roundmarker=roundmarker)
