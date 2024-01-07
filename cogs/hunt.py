@@ -302,7 +302,7 @@ class HuntCog(commands.Cog):
 
         # make copy of template sheet
         gclient = self.drive.gclient()
-        newsheet = gclient.copy(template_key,title=puzzlename, copy_permissions=False)
+        newsheet = gclient.copy(template_key,title=puzzlename, copy_permissions=True)
         newsheet_url = "https://docs.google.com/spreadsheets/d/%s" % newsheet.id
         return newsheet_url
 
