@@ -18,11 +18,12 @@ bot = commands.Bot(command_prefix='!',case_insensitive=True,intents=intents)
 initial_extensions = ['misc',
                        'toolbox',
                        'login',
-                       'debris',
                        'admin',
                        'tags',
                        'hunt',
                        'archive']
+
+# removed_extensions =  ['debris']
 
 # initial_extensions = ['login','hunt']
 
