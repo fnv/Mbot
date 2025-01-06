@@ -96,7 +96,7 @@ class HuntCog(commands.Cog):
         if not category:
             category = ctx.message.channel.category
         textchannnel = await category.create_text_channel(name=name,position=position)
-        voicechannnel = await category.create_voice_channel(name=name,position=position) if self.is_bighunt(hunt_info) else None
+        # voicechannnel = await category.create_voice_channel(name=name,position=position) if self.is_bighunt(hunt_info) else None
         return [textchannnel,voicechannnel]
 
     async def channel_rename(self,ctx,channel,newname):
