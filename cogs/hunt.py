@@ -794,7 +794,7 @@ class HuntCog(commands.Cog):
         msg = await newchannels[0].send(newsheet_url)
         await msg.pin()
         self.nexus_add_puzzle(nexussheet=nexus_sheet, hunt_info=hunt_info, nexus_data=nexus_data, puzzlechannel=newchannels[0], voicechannel=newchannels[1], puzzlename=puzzlename, puzzlesheeturl=newsheet_url, roundmarker=roundmarker)
-        self.cache_vc_for_contact(newchannels[1].id, newsheet_url)
+        # self.cache_vc_for_contact(newchannels[1].id, newsheet_url)
 
         # send final feedback
         if not is_multi:
@@ -948,12 +948,12 @@ class HuntCog(commands.Cog):
                 now = datetime.utcnow() - timedelta(hours=5)
                 dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
                 await self.send_log_message(ctx, hunt_info, '[' + dt_string + ' EST] :green_circle: Puzzle solved: {} (Round: `{}` ~ Answer: `{}`)'.format(ctx.message.channel.mention, ctx.message.channel.category, query.upper()))
-                deletion = (ctx.channel.id,
+                #deletion = (ctx.channel.id,
                             asyncio.create_task(self.voice_channel_delayed_delete(ctx, int(
                                 data_all[row_select - 1][lib['Voice Channel ID'][0]]), puzzlename, solve_message)))
-                self.vc_delete_queue.append(deletion)
-                await deletion[1]
-                self.vc_delete_queue.remove(deletion)
+                #self.vc_delete_queue.append(deletion)
+                #await deletion[1]
+                #self.vc_delete_queue.remove(deletion)
 
         else:
             await ctx.send('Updated solution (again): {}'.format(puzzlename))
@@ -969,12 +969,12 @@ class HuntCog(commands.Cog):
             return
 
         # cancel VC deletion if necessary
-        if self.is_bighunt(hunt_info):
-            for vc in self.vc_delete_queue:
-                if vc[0] == ctx.channel.id:
-                    vc[1].cancel()
-                    self.vc_delete_queue.remove(vc)
-                    break
+        #if self.is_bighunt(hunt_info):
+            #for vc in self.vc_delete_queue:
+                #if vc[0] == ctx.channel.id:
+                    #vc[1].cancel()
+                    #self.vc_delete_queue.remove(vc)
+                    #break
 
         # fetch nexus data and sort headings
         nexus_url = self.nexus_get_url(hunt_info)
@@ -1040,10 +1040,10 @@ class HuntCog(commands.Cog):
         puzzle_sheet.batch_update({"requests": requests})
 
         # remake vc if necessary
-        if self.is_bighunt(hunt_info) and discord.utils.get(ctx.guild.channels, id=int(data_all[row_select - 1][lib['Voice Channel ID'][0]])) is None:
-            vc = await ctx.channel.category.create_voice_channel(name=puzzle_name)
-            # this is a separate api edit request, but it should be infrequent enough not to matter
-            nexus_sheet.update_cell(row_select, lib['Voice Channel ID'][0]+1, str(vc.id))
+        #if self.is_bighunt(hunt_info) and discord.utils.get(ctx.guild.channels, id=int(data_all[row_select - 1][lib['Voice Channel ID'][0]])) is None:
+        #    vc = await ctx.channel.category.create_voice_channel(name=puzzle_name)
+        #    # this is a separate api edit request, but it should be infrequent enough not to matter
+        #    nexus_sheet.update_cell(row_select, lib['Voice Channel ID'][0]+1, str(vc.id))
 
         # inform user of undosolve
         await ctx.channel.edit(name=ctx.channel.name.replace(self.mark,''))
