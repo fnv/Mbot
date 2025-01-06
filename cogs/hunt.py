@@ -941,7 +941,7 @@ class HuntCog(commands.Cog):
                 ['gemheart', 'bang', 'face_explode', 'face_hearts', 'face_openmouth', 'face_party', 'face_stars',
                  'party', 'rocket', 'star', 'mbot', 'slug'])
             filepath = './misc/emotes/' + emote + '.png'
-            solve_message = await ctx.send(content=('`{}` marked as solved!' + (' Voice chat will be deleted in **2 minutes**.' if self.is_bighunt(hunt_info) else '')).format(puzzlename), file=discord.File(filepath))
+            solve_message = await ctx.send(content=('`{}` marked as solved!' + (' Voice chat will be deleted in **2 minutes**.' if False else '')).format(puzzlename), file=discord.File(filepath))
             await ctx.channel.edit(name=self.mark + ctx.channel.name, position=idx)
 
             if self.is_bighunt(hunt_info):
