@@ -275,8 +275,8 @@ class HuntCog(commands.Cog):
         # new row for puzzle
         temp = ['' for item in range(0,len(headings))]
         temp[lib['Channel ID'][0]] = str(puzzlechannel.id)
-        if self.is_bighunt(hunt_info):
-            temp[lib['Voice Channel ID'][0]] = str(voicechannel.id)
+        # if self.is_bighunt(hunt_info):
+        #    temp[lib['Voice Channel ID'][0]] = str(voicechannel.id)
         temp[lib['Priority'][0]] = 'New'
         temp[lib['Puzzle Name'][0]] = puzzlename
         temp[lib['Spreadsheet Link'][0]] = puzzlesheeturl
